@@ -7,85 +7,49 @@ if (!process.env.TELEGRAM_BOT_TOKEN) {
   throw new Error("TELEGRAM_BOT_TOKEN is not set");
 }
 
-//Store bot screaming status
-let screaming = false;
-
 //Create a new bot
 const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN);
 
-//This function handles the /scream command
-bot.command("scream", () => {
-  screaming = true;
-});
-
-//This function handles /whisper command
-bot.command("whisper", () => {
-  screaming = false;
-});
+const webAppUrl = "https://stick-hero.joshkoter.com/";
 
 //Pre-assign menu text
-const firstMenu =
-  "<b>Menu 1</b>\n\nA beautiful menu with a shiny inline button.";
-const secondMenu =
-  "<b>Menu 2</b>\n\nA better menu with even more shiny inline buttons.";
+const menu =
+  "<b>Check this out</b>\n\nClick the button below to see a basic web app in telegram.";
 
-//Pre-assign button text
-const nextButton = "Next";
-const backButton = "Back";
-const tutorialButton = "Tutorial";
+// Build keyboards
+const menuMarkup = new InlineKeyboard().webApp("🎮 Play", webAppUrl);
 
-//Build keyboards
-const firstMenuMarkup = new InlineKeyboard().text(nextButton, nextButton);
-
-const secondMenuMarkup = new InlineKeyboard()
-  .text(backButton, backButton)
-  .text(tutorialButton, "https://core.telegram.org/bots/tutorial");
+bot.command("start", async (ctx) => {
+  await ctx.reply(menu, {
+    parse_mode: "HTML",
+    reply_markup: menuMarkup
+  });
+});
 
 //This handler sends a menu with the inline buttons we pre-assigned above
 bot.command("menu", async (ctx) => {
-  await ctx.reply(firstMenu, {
+  await ctx.reply(menu, {
     parse_mode: "HTML",
-    reply_markup: firstMenuMarkup
+    reply_markup: menuMarkup
   });
 });
 
-//This handler processes back button on the menu
-bot.callbackQuery(backButton, async (ctx) => {
-  //Update message content with corresponding menu section
-  await ctx.editMessageText(firstMenu, {
-    reply_markup: firstMenuMarkup,
-    parse_mode: "HTML"
-  });
-});
-
-//This handler processes next button on the menu
-bot.callbackQuery(nextButton, async (ctx) => {
-  //Update message content with corresponding menu section
-  await ctx.editMessageText(secondMenu, {
-    reply_markup: secondMenuMarkup,
-    parse_mode: "HTML"
+bot.command("play", async (ctx) => {
+  await ctx.reply("Click the button below to play the game.", {
+    parse_mode: "HTML",
+    reply_markup: menuMarkup
   });
 });
 
 //This function would be added to the dispatcher as a handler for messages coming from the Bot API
 bot.on("message", async (ctx) => {
-  //Print to console
-  console.log(
-    `${ctx.from.first_name} wrote ${
-      "text" in ctx.message ? ctx.message.text : ""
-    }`
+  await ctx.reply(
+    "this bot can't talk! Click the button below to play the game.",
+    {
+      parse_mode: "HTML",
+      reply_markup: menuMarkup
+    }
   );
-
-  if (screaming && ctx.message.text) {
-    //Scream the message
-    await ctx.reply(ctx.message.text.toUpperCase(), {
-      entities: ctx.message.entities
-    });
-    console.log("here");
-  } else {
-    //This is equivalent to forwarding, without the sender's name
-    await ctx.copyMessage(ctx.message.chat.id);
-  }
 });
 
 //Start the Bot
