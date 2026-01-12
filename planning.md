@@ -1,5 +1,7 @@
 # Project Proposal: Telegram Minesweeper Gambling Game
 
+![UI](ui.jpeg)
+
 ## Project Overview
 
 A stylized minesweeper-themed gambling game accessible via a Telegram bot, using Solana blockchain for transactions. The game serves as a community engagement tool for an upcoming meme coin launch, with proceeds supporting the project treasury and rewarding token holders.
@@ -44,11 +46,11 @@ The game will use a **Telegram bot with inline button launch pattern**, similar 
 
 - Node.js with Telegraf/Grammy library for Telegram Bot API
 - Bot handles: user commands, notifications, wallet address generation/management
-- Hosted on: VPS/cloud provider (Railway, Render, DigitalOcean)
+- Hosted on: VPS/cloud provider (Fly.io, Railway, Render, DigitalOcean)
 
 **Web App Layer:**
 
-- React + TypeScript + Vite (matches your skillset)
+- React + TypeScript + Vite
 - Tailwind CSS for styling
 - Solana Web3.js + Wallet Adapter for blockchain integration
 - Hosted on: Vercel, Netlify, or Cloudflare Pages (HTTPS required)
@@ -85,8 +87,7 @@ The game will use a **Telegram bot with inline button launch pattern**, similar 
 - Withdraw funds and winnings at any time
 - Real-time multiplier calculations
 - Provably fair game mechanics (cryptographic proof that mine placement is random)
-- Retro "hacker aesthetic" visual design with provided art assets
-- Game history and statistics
+- Game history and statistics (optional)
 - Leaderboard (optional)
 
 ## Blockchain Context: TON Exclusivity & Solana Viability
@@ -139,40 +140,39 @@ This approach is **compliant** with Telegram's current policies while maintainin
 
 ## Project Scope & Phases
 
-### Phase 1: Proof of Concept (Current - Week 1)
+### Phase 1: Proof of Concept
 
 - Basic Telegram bot with message-sending functionality
 - Development environment setup
-- Workflow establishment between team members
 
-### Phase 2: Minesweeper Game Development (Weeks 2-6)
+### Phase 2: Minesweeper Game Development
 
-**Week 2-3: Core Game Mechanics**
+**Core Game Mechanics**
 
 - Minesweeper game logic (mine placement, tile reveal, multiplier calculation)
 - Frontend UI implementation with provided design assets
 - Local testing and iteration
 
-**Week 3-4: Blockchain Integration**
+**Blockchain Integration**
 
 - Solana wallet connection (Wallet Adapter integration)
 - Smart contract development for bet escrow and payout
 - Devnet testing with test SOL
 
-**Week 4-5: Bot Integration**
+**Bot Integration**
 
 - Telegram bot commands (`/start`, `/play`, `/balance`, `/withdraw`)
 - Inline button implementation for game launch
 - User session management
 
-**Week 5-6: Testing & Polish**
+**Testing & Polish**
 
 - End-to-end testing on devnet
 - Security review and provably fair verification
 - UI/UX refinement
 - Performance optimization
 
-### Phase 3: Deployment & Launch (Week 7)
+### Phase 3: Deployment & Launch
 
 - Smart contract audit (if budget allows)
 - Mainnet deployment
@@ -181,18 +181,13 @@ This approach is **compliant** with Telegram's current policies while maintainin
 - Soft launch with beta testers
 - Public launch coordinated with meme coin drop
 
-### Phase 4: Future Projects (Post-Launch)
-
-- Two additional projects planned (unspecified)
-- Potential features: tournaments, social features, additional games
-
 ## Deliverables
 
 1. ✅ Functional Telegram bot accessible via username
 2. ✅ Web app with complete minesweeper gameplay and configurable mine counts
 3. ✅ Solana blockchain integration for deposits, bets, and withdrawals
 4. ✅ Wallet connection system (Phantom/Solflare support minimum)
-5. ✅ Branded UI matching provided design assets (retro hacker aesthetic)
+5. ✅ Branded UI matching provided design assets
 6. ✅ Provably fair game mechanics with verification
 7. ✅ Smart contract for bet handling
 8. ✅ Documentation: setup guide, API docs, smart contract documentation
@@ -204,70 +199,67 @@ This approach is **compliant** with Telegram's current policies while maintainin
 
 1. **Wallet Strategy**:
 
-   - Preference between auto-generated bot wallets vs. direct wallet connection?
-   - If bot wallets: what's the security/insurance plan for held funds?
+   - Auto-generated bot wallets: what's the security/insurance plan for held funds?
 
 2. **Smart Contract Ownership**:
 
    - Who owns/develops the smart contract for bet handling?
    - Is there existing Solana infrastructure or starting from scratch?
-   - Who pays for smart contract audit (~$5-15k)?
+   - If there's budget for it, who pays for smart contract audit (~$5-15k)?
 
 3. **Timeline & Launch Date**:
 
-   - What's the target launch date?
-   - How does it align with the meme coin drop?
-   - Any hard deadlines?
+   - 1 month from commencement
 
 4. **Game Economics**:
 
    - What's the house edge percentage?
    - Min/max bet amounts in SOL?
-   - Payout multiplier table (varies by number of mines)?
    - Where do house profits go (treasury address)?
+   - Payout multiplier table, varies by number of mines
 
-5. **Provably Fair Implementation**:
+![multiplier table](multiplier-table.png)
+
+1. **Provably Fair Implementation**:
 
    - Does the game need cryptographic proof of fairness? (industry standard for crypto gambling)
    - If yes: client-seed + server-seed model or on-chain randomness?
 
-6. **Testing Approach**:
+2. **Testing Approach**:
 
    - How much devnet testing is required before mainnet?
    - Who provides test SOL for testing?
    - Beta tester group available?
 
-7. **Legal/Compliance**:
+3. **Legal/Compliance**:
 
    - Target geographic markets?
    - Any regulatory requirements known?
    - Age restrictions to implement?
 
-8. **Art Assets**:
+4. **Art Assets**:
 
    - All design assets ready to share?
-   - Design system/style guide available?
    - Any animation requirements?
 
-9. **Backend Requirements**:
+5. **Backend Requirements**:
 
    - Does the bot need a database for user stats/history?
    - Analytics requirements?
-   - Admin dashboard needed?
 
-10. **Post-Launch Support**:
-    - Who handles maintenance and updates after launch?
-    - Support structure for users with issues?
-    - Monitoring and incident response plan?
+6. **Post-Launch Support**:
+   - Who handles maintenance and updates after launch?
+   - Support structure for users with issues?
+   - Monitoring and incident response plan?
 
 ## Cost Considerations
 
 ### Development Costs
 
 - Smart contract development
-- Smart contract audit (recommended: $5-15k)
-- Frontend/backend development (your rate × estimated hours)
-- Hosting costs (minimal: ~$20-50/month)
+- Smart contract audit
+- Frontend/backend development (R400 per hour × estimated hours)
+- Hosting costs (minimal: ~R200-R700/month)
 
 ### Ongoing Costs
 
@@ -342,7 +334,7 @@ This approach is **compliant** with Telegram's current policies while maintainin
 
 1. 📋 Finalize technical architecture
 2. 📋 Set up development repositories
-3. 📋 Begin smart contract development (parallel with frontend)
+3. 📋 Begin smart contract development
 4. 📋 Start core game mechanics implementation
 5. 📋 Create development roadmap with milestones
 
