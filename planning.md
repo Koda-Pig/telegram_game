@@ -2,9 +2,25 @@
 
 ## Project Overview
 
-A Solana-based minesweeper gambling game accessible via Telegram bot. Players bet SOL, select mine count (risk level), and reveal tiles for multiplying rewards. Hit a mine = lose bet. Cash out anytime to claim winnings.
+A Solana-based minesweeper gambling game accessible via Telegram bot, designed for a meme coin launch. Players bet SOL, select mine count (risk level), and reveal tiles (green diamonds) for multiplying rewards. Hit a mine = lose bet. Cash out anytime to claim winnings.
+
+**Business Context:**
+
+- Game for community engagement around token launch
+- Funds generated go towards project treasury
+- Profits rewarded back to token holders
+- Simplified gameplay (5×5 grid) compared to traditional minesweeper
 
 **Key Implementation Pattern:** Telegram bot + inline button → React web app → Solana wallet integration
+
+## Game Rules
+
+**Grid:** 5×5 board (25 tiles total)
+**Setup:** Player chooses bet amount and number of mines to place (1-24 mines)
+**Gameplay:** Click tiles to reveal "green diamonds" (safe tiles)
+**Win:** Cash out anytime to claim current multiplier × bet
+**Lose:** Click a mine = lose entire bet
+**Multiplier:** Increases with each safe tile revealed (see multiplier table)
 
 ## Architecture
 
@@ -20,7 +36,7 @@ A Solana-based minesweeper gambling game accessible via Telegram bot. Players be
 
 **Bot:** Node.js + Grammy
 
-**Web App:** React + TypeScript + Vite + Tailwind (separate repository)
+**Web App:** React + TypeScript + Vite + Tailwind ([separate repository](https://github.com/Koda-Pig/motherlode_minesweeper_frontend))
 
 **Blockchain:** Solana Web3.js + Wallet Adapter
 
@@ -74,23 +90,36 @@ Common pattern for crypto gambling sites:
 
 ### 2. Wallet Strategy
 
-**Direct Wallet Connection (Recommended)**
+**Bot-Generated Wallets (Preferred)**
+
+- Bot creates unique Solana wallet per user when they enter the bot
+- User must fund that wallet to play the game
+- User can withdraw funds and profits back to their main wallet at any time
+- **Security Requirements:**
+  - Encrypted private key storage
+  - Secure key derivation (BIP39/BIP44)
+  - Rate limiting on withdrawals
+  - Multi-signature for treasury withdrawals
+- Higher risk (bot controls keys) but reduces friction and isolates risk per user
+
+**Alternative: Direct Wallet Connection**
 
 - User connects Phantom/Solflare via web app
 - All transactions signed by user's wallet
 - No bot custody of funds
 - Standard Web3 pattern
 
-**Alternative: Bot-Generated Wallets**
-
-- Bot creates Solana wallet per user
-- User deposits to bot wallet to play
-- Higher risk (bot controls keys)
-- Consider only if onboarding friction is critical
-
 ### 3. Game Economics
 
-**From your multiplier table requirements:**
+**Multiplier Table:**
+
+![Multiplier Table](multiplier-table.png)
+
+- Reference: `multiplier-table.png` (contains complete multiplier values for all mine/diamond combinations)
+- Table structure: DIAMONDS (rows 1-24) × MINES (columns 1-24)
+- Multipliers increase significantly with higher mine counts and more diamonds revealed
+
+**Game Parameters:**
 
 - House edge: ~2-5% (typical for crypto gambling)
 - Min bet: 0.01 SOL
@@ -104,30 +133,32 @@ Base Multiplier = (25 / (25 - num_mines)) ^ tiles_revealed
 Final Payout = bet_amount * multiplier * (1 - house_edge)
 ```
 
+Note: The exact multiplier values are defined in `multiplier-table.png` and should be used for game logic implementation.
+
 ## Implementation Phases
 
-### Phase 1: Proof of Concept (Current - Week 1)
+### Phase 1: Proof of Concept
 
 - [x] Basic Telegram bot with commands
 - [ ] React app with wallet connection
 - [ ] HTTPS tunnel for local testing
 - [ ] Simple minesweeper UI (no betting yet)
 
-### Phase 2: Core Game Mechanics (Week 2-3)
+### Phase 2: Core Game Mechanics
 
 - [ ] Minesweeper game logic (mine placement, tile reveals)
 - [ ] Multiplier calculations
 - [ ] Off-chain provably fair randomness implementation
 - [ ] Basic UI matching provided design assets
 
-### Phase 3: Blockchain Integration (Week 3-4)
+### Phase 3: Blockchain Integration
 
 - [ ] Solana transaction handling (bets, payouts)
 - [ ] Smart contract for bet escrow (optional for MVP)
 - [ ] Balance checking and withdrawal flow
 - [ ] Devnet testing with test SOL
 
-### Phase 4: Polish & Deploy (Week 4+)
+### Phase 4: Polish & Deploy
 
 - [ ] Security review and rate limiting
 - [ ] Production deployment (bot + web app)
@@ -136,32 +167,9 @@ Final Payout = bet_amount * multiplier * (1 - house_edge)
 
 ## Quick Start Guide
 
-### 1. Set Up Telegram Bot
+**Note:** Telegram bot is already set up and deployed. See `bot.ts` for current implementation.
 
-Create bot with @BotFather, then:
-
-```javascript
-// bot.js
-const { Telegraf } = require("telegraf");
-require("dotenv").config();
-
-const bot = new Telegraf(process.env.BOT_TOKEN);
-const WEB_APP_URL = process.env.WEB_APP_URL;
-
-bot.command("play", (ctx) => {
-  ctx.reply("🎮 Ready to play Minesweeper?", {
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: "🎮 Launch Game", web_app: { url: WEB_APP_URL } }]
-      ]
-    }
-  });
-});
-
-bot.launch();
-```
-
-### 2. Set Up React App with Solana
+### Set Up React App with Solana
 
 ```bash
 npm create vite@latest minesweeper-game -- --template react-ts
@@ -169,7 +177,7 @@ cd minesweeper-game
 npm install @solana/wallet-adapter-react @solana/wallet-adapter-wallets @solana/web3.js
 ```
 
-### 3. Local Development with HTTPS
+### Local Development with HTTPS
 
 ```bash
 # Terminal 1: Start React app
@@ -185,19 +193,18 @@ Update bot's `.env` with tunnel URL, restart bot, test with `/play`.
 
 ### Before Development Continues:
 
-1. **Timeline:** Confirmed 1 month from start?
+1. **Timeline:** 1 month timeline (not commenced yet)
 2. **Smart Contract:** Do we build custom bet escrow contract or handle payouts off-chain initially?
-3. **Multiplier Table:** Can you share the exact multiplier values for each mine count?
-4. **House Edge:** What percentage? (2-5% is standard)
-5. **Min/Max Bets:** Limits in SOL?
-6. **Design Assets:** Ready to share UI mockups and style guide?
-7. **Devnet Testing:** How long before moving to mainnet?
+3. **House Edge:** What percentage? (2-5% is standard)
+4. **Min/Max Bets:** Limits in SOL?
+5. **Design Assets:** Ready to share UI mockups and style guide?
+6. **Devnet Testing:** How long before moving to mainnet?
 
 ### Security & Compliance:
 
-8. **Legal Review:** Any regulatory requirements for target markets?
-9. **Age Verification:** Needed?
-10. **Smart Contract Audit:** Budget available? (~$5-15k)
+7. **Legal Review:** Any regulatory requirements for target markets?
+8. **Age Verification:** Needed?
+9. **Smart Contract Audit:** Budget available? (~$5-15k)
 
 ## Resources
 
@@ -210,7 +217,7 @@ Update bot's `.env` with tunnel URL, restart bot, test with `/play`.
 **Telegram Development:**
 
 - Bot API: https://core.telegram.org/bots/api
-- Telegraf: https://telegraf.js.org/
+- Grammy: https://grammy.dev/
 
 **Solana Development:**
 
