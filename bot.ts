@@ -10,7 +10,7 @@ if (!process.env.TELEGRAM_BOT_TOKEN) {
 //Create a new bot
 const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN);
 
-const webAppUrl = "https://stick-hero.joshkoter.com/";
+const webAppUrl = "https://motherlode-mine-sweeper.netlify.app/";
 
 //Pre-assign menu text
 const menu =

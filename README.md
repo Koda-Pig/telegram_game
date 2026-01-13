@@ -32,3 +32,36 @@ https://core.telegram.org/bots#host-games
 
 - when they close the app - they get warning that they lose their bet.
 - This bot you interact with on telegram, then to trade solana it opens up a web app: @PoopoovilleBot.
+
+## Deployment
+
+Deployed using fly.io here:
+https://telegram-game.fly.dev/
+
+CI/CD is setup to deploy automatically when a new commit is pushed to the main branch.
+
+### Check fly logs:
+
+```bash
+fly logs -a telegram-game
+```
+
+## Set environment variables on fly.io
+
+```bash
+fly secrets set {SECRET=VALUE}
+```
+
+## Troubleshooting
+
+### check docker build locally
+
+```bash
+docker build -t telegram-game .
+```
+
+then
+
+```bash
+docker run -p 3000:3000 --env-file .env.docker telegram-game
+```
