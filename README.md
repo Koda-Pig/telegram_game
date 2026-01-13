@@ -60,7 +60,7 @@ fly secrets set {SECRET=VALUE}
 docker build -t telegram-game .
 ```
 
-then
+then:
 
 ```bash
 docker run -p 3000:3000 --env-file .env.docker telegram-game
