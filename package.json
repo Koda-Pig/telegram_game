@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "tsx ./bot.ts",
-    "dev": "tsx watch ./bot.ts"
+    "start": "tsx server.ts",
+    "dev": "tsx watch ./bot.ts",
+    "build": "echo 'No build step needed'"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
