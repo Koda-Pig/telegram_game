@@ -38,7 +38,9 @@ https://core.telegram.org/bots#host-games
 Deployed using fly.io here:
 https://telegram-game.fly.dev/
 
-CI/CD is setup to deploy automatically when a new commit is pushed to the main branch.
+CI/CD is **NOT YET** setup to deploy automatically when a new commit is pushed to the main branch.
+
+To deploy, run `fly deploy`
 
 ### Check fly logs:
 
